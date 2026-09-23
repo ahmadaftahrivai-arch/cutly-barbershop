@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { services } from "@/data/services";
 import { barbers } from "@/data/barbers";
@@ -62,6 +63,8 @@ export async function POST(request: Request) {
   }
 
   try {
+    const session = await auth();
+
     const booking = await prisma.booking.create({
       data: {
         name: name.trim(),
@@ -72,6 +75,7 @@ export async function POST(request: Request) {
         date: new Date(date),
         time,
         notes: isNonEmptyString(notes) ? notes.trim() : null,
+        userId: session?.user?.id,
       },
     });
 

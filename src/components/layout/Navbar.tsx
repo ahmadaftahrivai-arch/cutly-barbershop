@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { Menu, User, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
@@ -11,6 +12,15 @@ import { navLinks, siteConfig } from "@/data/site";
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { data: session, status } = useSession();
+
+  const accountHref =
+    status === "authenticated"
+      ? session.user.role === "ADMIN"
+        ? "/admin"
+        : "/dashboard"
+      : "/login";
+  const accountLabel = status === "authenticated" ? "Dashboard" : "Log In";
 
   useEffect(() => {
     function onScroll() {
@@ -55,7 +65,14 @@ export function Navbar() {
             ))}
           </ul>
 
-          <div className="hidden lg:block">
+          <div className="hidden items-center gap-6 lg:flex">
+            <Link
+              href={accountHref}
+              className="flex items-center gap-1.5 text-sm font-medium text-ink-muted transition-colors hover:text-ink"
+            >
+              <User size={16} />
+              {accountLabel}
+            </Link>
             <Button href="#booking" variant="primary">
               Book a Cut
             </Button>
@@ -93,7 +110,15 @@ export function Navbar() {
                 </li>
               ))}
             </ul>
-            <div className="pb-6">
+            <div className="space-y-3 pb-6">
+              <Link
+                href={accountHref}
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 rounded-lg px-2 py-3 text-base font-medium text-ink-muted transition-colors hover:bg-surface hover:text-ink"
+              >
+                <User size={18} />
+                {accountLabel}
+              </Link>
               <Button href="#booking" variant="primary" className="w-full">
                 Book a Cut
               </Button>
