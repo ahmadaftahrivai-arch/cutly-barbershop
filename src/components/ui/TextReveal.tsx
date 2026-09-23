@@ -29,7 +29,7 @@ export function TextReveal({ text, className, delay = 0 }: TextRevealProps) {
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: false, margin: "-80px" }}
       variants={container}
     >
       {words.map((w, i) => (

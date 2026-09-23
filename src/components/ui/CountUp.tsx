@@ -21,17 +21,24 @@ export function CountUp({
   const ref = useRef<HTMLSpanElement>(null);
   // Positive bottom margin so elements sitting near the initial viewport
   // edge (e.g. a hero stat badge) still trigger on load, not just on scroll.
-  const inView = useInView(ref, { once: true, margin: "0px 0px 200px 0px" });
+  // once: false so it replays whenever it re-enters view, matching the
+  // rest of the scroll-reveal system.
+  const inView = useInView(ref, { once: false, margin: "0px 0px 200px 0px" });
   const prefersReducedMotion = useReducedMotion();
   const [value, setValue] = useState(prefersReducedMotion ? target : 0);
 
   useEffect(() => {
-    if (!inView || prefersReducedMotion) return;
-    const controls = animate(0, target, {
-      duration,
-      ease: [0.22, 1, 0.36, 1],
-      onUpdate: (v) => setValue(Number(v.toFixed(decimals))),
-    });
+    if (prefersReducedMotion) return;
+    const controls = inView
+      ? animate(0, target, {
+          duration,
+          ease: [0.22, 1, 0.36, 1],
+          onUpdate: (v) => setValue(Number(v.toFixed(decimals))),
+        })
+      : animate(0, 0, {
+          duration: 0,
+          onUpdate: () => setValue(0),
+        });
     return () => controls.stop();
   }, [inView, target, duration, decimals, prefersReducedMotion]);
 

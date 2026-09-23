@@ -29,7 +29,7 @@ export function Reveal({ children, className, delay = 0, y = 24 }: RevealProps) 
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: false, margin: "-80px" }}
       variants={variants}
     >
       {children}
@@ -54,7 +54,7 @@ export function Stagger({ children, className, step = 0.08 }: StaggerProps) {
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: false, margin: "-80px" }}
       variants={container}
     >
       {children}
