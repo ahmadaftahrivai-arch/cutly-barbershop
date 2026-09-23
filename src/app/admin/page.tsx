@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
 import { auth } from "@/auth";
@@ -6,7 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { SignOutButton } from "@/components/ui/SignOutButton";
 import { AdminFilters } from "@/components/ui/AdminFilters";
 import { BookingStatusSelect } from "@/components/ui/BookingStatusSelect";
-import { getBarberName, getBranchName, getServiceName } from "@/lib/lookups";
+import { buildCatalogLookup } from "@/lib/lookups";
 
 interface AdminPageProps {
   searchParams: Promise<{ branch?: string; status?: string; date?: string }>;
@@ -29,11 +30,14 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     where.date = { gte: start, lte: end };
   }
 
-  const bookings = await prisma.booking.findMany({
-    where,
-    orderBy: { createdAt: "desc" },
-    take: 100,
-  });
+  const [bookings, lookup] = await Promise.all([
+    prisma.booking.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: 100,
+    }),
+    buildCatalogLookup(),
+  ]);
 
   return (
     <main className="min-h-screen bg-surface py-16">
@@ -47,7 +51,17 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               All Bookings
             </h1>
           </div>
-          <SignOutButton />
+          <div className="flex items-center gap-5">
+            <nav className="flex items-center gap-4 text-sm font-medium text-ink-muted">
+              <Link href="/admin/services" className="hover:text-ink">
+                Services
+              </Link>
+              <Link href="/admin/barbers" className="hover:text-ink">
+                Barbers
+              </Link>
+            </nav>
+            <SignOutButton />
+          </div>
         </div>
 
         <div className="mt-8">
@@ -84,13 +98,13 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                       <p className="text-xs text-ink-muted">{booking.phone}</p>
                     </td>
                     <td className="px-5 py-4 text-ink-muted">
-                      {getBranchName(booking.branchId)}
+                      {lookup.branchName(booking.branchId)}
                     </td>
                     <td className="px-5 py-4 text-ink-muted">
-                      {getServiceName(booking.serviceId)}
+                      {lookup.serviceName(booking.serviceId)}
                     </td>
                     <td className="px-5 py-4 text-ink-muted">
-                      {getBarberName(booking.barberId)}
+                      {lookup.barberName(booking.barberId)}
                     </td>
                     <td className="px-5 py-4 text-ink-muted">
                       {booking.date.toLocaleDateString("en-GB", {

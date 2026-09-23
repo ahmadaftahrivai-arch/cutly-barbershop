@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { services } from "@/data/services";
-import { barbers } from "@/data/barbers";
+import { getServices, getBarbers } from "@/lib/catalog";
 import { branches } from "@/data/branches";
 import { timeSlots } from "@/data/booking";
 
@@ -41,6 +40,9 @@ export async function POST(request: Request) {
   if (!isNonEmptyString(branchId) || !branches.some((b) => b.id === branchId)) {
     return NextResponse.json({ error: "Please choose a valid branch." }, { status: 400 });
   }
+
+  const [services, barbers] = await Promise.all([getServices(), getBarbers()]);
+
   if (!isNonEmptyString(serviceId) || !services.some((s) => s.id === serviceId)) {
     return NextResponse.json({ error: "Please choose a valid service." }, { status: 400 });
   }

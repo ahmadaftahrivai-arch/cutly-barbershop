@@ -23,6 +23,27 @@ model User {
   bookings     Booking[]
 }
 
+model Service {
+  id          String  @id
+  name        String
+  description String
+  price       String
+  duration    String
+  icon        String
+  featured    Boolean @default(false)
+  order       Int     @default(0)
+}
+
+model Barber {
+  id         String @id
+  name       String
+  specialty  String
+  experience String
+  bio        String
+  initials   String
+  order      Int    @default(0)
+}
+
 model Booking {
   id        String   @id @default(cuid())
   name      String

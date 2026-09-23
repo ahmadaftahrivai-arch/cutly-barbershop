@@ -10,15 +10,22 @@ import { Gallery } from "@/components/sections/Gallery";
 import { WhyCutly } from "@/components/sections/WhyCutly";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { CTA } from "@/components/sections/CTA";
+import { getServices, getBarbers } from "@/lib/catalog";
 
-export default function Home() {
+// Services/Barbers are DB-backed and editable from /admin, so this page
+// can't be statically prerendered at build time (no DB access then).
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const [services, barbers] = await Promise.all([getServices(), getBarbers()]);
+
   return (
     <>
       <Navbar />
       <main>
         <Hero />
         <Services />
-        <Booking />
+        <Booking services={services} barbers={barbers} />
         <Barbers />
         <Locations />
         <AIAssistant />

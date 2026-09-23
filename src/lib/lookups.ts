@@ -1,16 +1,22 @@
-import { services } from "@/data/services";
-import { barbers } from "@/data/barbers";
+import { getServices, getBarbers } from "@/lib/catalog";
 import { branches } from "@/data/branches";
 
-export function getServiceName(id: string) {
-  return services.find((s) => s.id === id)?.name ?? id;
+export interface CatalogLookup {
+  serviceName: (id: string) => string;
+  barberName: (id: string | null) => string;
+  branchName: (id: string) => string;
 }
 
-export function getBarberName(id: string | null) {
-  if (!id) return "No preference";
-  return barbers.find((b) => b.id === id)?.name ?? id;
-}
+export async function buildCatalogLookup(): Promise<CatalogLookup> {
+  const [services, barbers] = await Promise.all([getServices(), getBarbers()]);
 
-export function getBranchName(id: string) {
-  return branches.find((b) => b.id === id)?.name ?? id;
+  const serviceMap = new Map(services.map((s) => [s.id, s.name]));
+  const barberMap = new Map(barbers.map((b) => [b.id, b.name]));
+  const branchMap = new Map(branches.map((b) => [b.id, b.name]));
+
+  return {
+    serviceName: (id) => serviceMap.get(id) ?? id,
+    barberName: (id) => (id ? (barberMap.get(id) ?? id) : "No preference"),
+    branchName: (id) => branchMap.get(id) ?? id,
+  };
 }

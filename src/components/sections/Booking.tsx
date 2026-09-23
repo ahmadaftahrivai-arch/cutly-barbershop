@@ -7,12 +7,16 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FormField, inputClasses } from "@/components/ui/FormField";
 import { Reveal } from "@/components/ui/Reveal";
-import { services } from "@/data/services";
-import { barbers } from "@/data/barbers";
 import { branches } from "@/data/branches";
 import { timeSlots } from "@/data/booking";
+import { Service, Barber } from "@/types";
 
-export function Booking() {
+interface BookingProps {
+  services: Service[];
+  barbers: Barber[];
+}
+
+export function Booking({ services, barbers }: BookingProps) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);

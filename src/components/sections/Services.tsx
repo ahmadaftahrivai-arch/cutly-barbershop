@@ -2,9 +2,11 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ServiceCard } from "@/components/ui/ServiceCard";
 import { Stagger, StaggerItem } from "@/components/ui/Reveal";
-import { services } from "@/data/services";
+import { getServices } from "@/lib/catalog";
 
-export function Services() {
+export async function Services() {
+  const services = await getServices();
+
   return (
     <section id="services" className="py-24 lg:py-32">
       <Container>

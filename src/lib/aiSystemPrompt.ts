@@ -1,9 +1,10 @@
-import { services } from "@/data/services";
-import { barbers } from "@/data/barbers";
+import { getServices, getBarbers } from "@/lib/catalog";
 import { branches } from "@/data/branches";
 import { siteConfig } from "@/data/site";
 
-export function buildSystemPrompt(): string {
+export async function buildSystemPrompt(): Promise<string> {
+  const [services, barbers] = await Promise.all([getServices(), getBarbers()]);
+
   const servicesText = services
     .map(
       (s) =>

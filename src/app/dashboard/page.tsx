@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Container } from "@/components/ui/Container";
 import { SignOutButton } from "@/components/ui/SignOutButton";
-import { getBarberName, getBranchName, getServiceName } from "@/lib/lookups";
+import { buildCatalogLookup } from "@/lib/lookups";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -15,10 +15,13 @@ export default async function DashboardPage() {
     redirect("/admin");
   }
 
-  const bookings = await prisma.booking.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: "desc" },
-  });
+  const [bookings, lookup] = await Promise.all([
+    prisma.booking.findMany({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: "desc" },
+    }),
+    buildCatalogLookup(),
+  ]);
 
   return (
     <main className="min-h-screen bg-surface py-16">
@@ -65,15 +68,15 @@ export default async function DashboardPage() {
                 >
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <p className="font-display text-lg font-semibold text-ink">
-                      {getServiceName(booking.serviceId)}
+                      {lookup.serviceName(booking.serviceId)}
                     </p>
                     <span className="rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent-dark">
                       {booking.status}
                     </span>
                   </div>
                   <div className="mt-3 grid gap-1.5 text-sm text-ink-muted sm:grid-cols-2">
-                    <p>{getBranchName(booking.branchId)}</p>
-                    <p>{getBarberName(booking.barberId)}</p>
+                    <p>{lookup.branchName(booking.branchId)}</p>
+                    <p>{lookup.barberName(booking.barberId)}</p>
                     <p>
                       {booking.date.toLocaleDateString("en-GB", {
                         day: "numeric",
