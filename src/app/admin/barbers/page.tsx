@@ -1,43 +1,25 @@
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
-import { auth } from "@/auth";
-import { Container } from "@/components/ui/Container";
-import { SignOutButton } from "@/components/ui/SignOutButton";
 import { BarbersAdminTable } from "@/components/ui/BarbersAdminTable";
 import { getBarbers } from "@/lib/catalog";
 
 export default async function AdminBarbersPage() {
-  const session = await auth();
-  if (!session?.user || session.user.role !== "ADMIN") {
-    redirect("/login");
-  }
-
   const barbers = await getBarbers();
 
   return (
-    <main className="min-h-screen bg-surface py-16">
-      <Container className="max-w-3xl">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-8">
-          <div>
-            <Link
-              href="/admin"
-              className="flex items-center gap-1.5 text-sm text-ink-muted hover:text-ink"
-            >
-              <ArrowLeft size={14} />
-              Back to bookings
-            </Link>
-            <h1 className="mt-2 font-display text-3xl font-semibold text-ink">
-              Manage Barbers
-            </h1>
-          </div>
-          <SignOutButton />
-        </div>
+    <div className="max-w-3xl">
+      <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent-dark">
+        Catalog
+      </p>
+      <h1 className="mt-2 font-display text-3xl font-semibold text-ink">
+        Manage Barbers
+      </h1>
+      <p className="mt-2 text-sm text-ink-muted">
+        Edit profiles, or add a new barber — changes appear on the site right
+        away.
+      </p>
 
-        <div className="mt-8">
-          <BarbersAdminTable barbers={barbers} />
-        </div>
-      </Container>
-    </main>
+      <div className="mt-8">
+        <BarbersAdminTable barbers={barbers} />
+      </div>
+    </div>
   );
 }

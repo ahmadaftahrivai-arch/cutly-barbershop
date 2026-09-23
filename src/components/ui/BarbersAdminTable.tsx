@@ -126,8 +126,17 @@ function BarberForm({ initial, onSaved }: { initial: Barber; onSaved: () => void
   return (
     <form
       onSubmit={handleSave}
-      className="grid gap-4 rounded-2xl border border-line bg-background p-5 sm:grid-cols-2"
+      className="grid gap-4 rounded-2xl border border-line bg-background p-5 shadow-sm shadow-ink/[0.02] transition-shadow hover:shadow-md hover:shadow-ink/5 sm:grid-cols-2"
     >
+      <div className="flex items-center gap-3 sm:col-span-2">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-alt text-sm font-semibold text-ink/80">
+          {values.initials || "??"}
+        </div>
+        <p className="font-display text-base font-semibold text-ink">
+          {values.name || "Untitled barber"}
+        </p>
+      </div>
+
       <BarberFieldset values={values} onChange={setValues} />
 
       {error && (

@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle, Trash2 } from "lucide-react";
 import { inputClasses } from "@/components/ui/FormField";
+import { Icon } from "@/components/ui/Icon";
 import { Service } from "@/types";
 
 const ICONS = ["scissors", "razor", "comb", "beard", "clipper", "sparkle"] as const;
@@ -67,8 +68,22 @@ function ServiceForm({
   return (
     <form
       onSubmit={handleSave}
-      className="grid gap-4 rounded-2xl border border-line bg-background p-5 sm:grid-cols-2"
+      className="grid gap-4 rounded-2xl border border-line bg-background p-5 shadow-sm shadow-ink/[0.02] transition-shadow hover:shadow-md hover:shadow-ink/5 sm:grid-cols-2"
     >
+      <div className="flex items-center gap-3 sm:col-span-2">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent-dark">
+          <Icon name={icon} className="h-5 w-5" />
+        </div>
+        <div>
+          <p className="font-display text-base font-semibold text-ink">
+            {name || "Untitled service"}
+          </p>
+          {featured && (
+            <p className="text-xs font-medium text-accent-dark">Most popular</p>
+          )}
+        </div>
+      </div>
+
       <label className="flex flex-col gap-1.5 text-xs font-medium text-ink-muted">
         Name
         <input
