@@ -52,10 +52,9 @@ export async function POST(request: Request) {
     async start(controller) {
       try {
         const claudeStream = client.messages.stream({
-          model: "claude-opus-5",
+          model: "claude-haiku-4-5",
           max_tokens: 1024,
           system: buildSystemPrompt(),
-          output_config: { effort: "low" },
           messages,
         });
 
