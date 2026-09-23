@@ -6,10 +6,10 @@ export function ServiceCard({ service }: { service: Service }) {
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col rounded-2xl border p-7 transition-all duration-300",
+        "group relative flex h-full flex-col rounded-2xl border p-7 transition-all duration-300 hover:-translate-y-1",
         service.featured
-          ? "border-ink bg-ink text-background"
-          : "border-line bg-background hover:-translate-y-1 hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5",
+          ? "border-ink bg-ink text-background hover:shadow-xl hover:shadow-accent/10"
+          : "border-line bg-background hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5",
       )}
     >
       {service.featured && (
@@ -20,7 +20,7 @@ export function ServiceCard({ service }: { service: Service }) {
 
       <div
         className={cn(
-          "flex h-12 w-12 items-center justify-center rounded-xl",
+          "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110",
           service.featured ? "bg-accent/20 text-accent" : "bg-accent-soft text-accent-dark",
         )}
       >

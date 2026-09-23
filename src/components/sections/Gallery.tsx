@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Icon } from "@/components/ui/Icon";
 import { StripePattern } from "@/components/ui/StripePattern";
+import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { galleryItems } from "@/data/gallery";
 import { cn } from "@/lib/cn";
 
@@ -22,38 +23,43 @@ export function Gallery() {
           description="A look at the cuts, fades, and grooming styles our barbers deliver every single day."
         />
 
-        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:auto-rows-[11rem]">
+        <Stagger className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:auto-rows-[11rem]">
           {galleryItems.map((item, index) => {
             const tall = index === 0 || index === 5;
             return (
-              <article
+              <StaggerItem
                 key={item.id}
                 className={cn(
-                  "group relative flex flex-col justify-end overflow-hidden rounded-2xl p-5",
-                  tileStyles[index % tileStyles.length],
-                  tall ? "sm:row-span-2" : "",
                   "aspect-square sm:aspect-auto",
+                  tall ? "sm:row-span-2" : "",
                 )}
               >
-                <StripePattern
-                  id={`gallery-${item.id}`}
-                  className="-right-4 -top-4 h-24 w-24 opacity-[0.15]"
-                />
-                <Icon
-                  name={item.icon}
-                  className="absolute right-5 top-5 h-8 w-8 opacity-40 transition-transform duration-300 group-hover:scale-110"
-                  strokeWidth={1.2}
-                />
-                <p className="text-[11px] font-medium uppercase tracking-[0.16em] opacity-70">
-                  {item.category}
-                </p>
-                <p className="font-display text-lg font-semibold leading-tight">
-                  {item.title}
-                </p>
-              </article>
+                <article
+                  className={cn(
+                    "group relative flex h-full flex-col justify-end overflow-hidden rounded-2xl p-5 transition-transform duration-300 hover:-translate-y-1",
+                    tileStyles[index % tileStyles.length],
+                  )}
+                >
+                  <StripePattern
+                    id={`gallery-${item.id}`}
+                    className="-right-4 -top-4 h-24 w-24 opacity-[0.15]"
+                  />
+                  <Icon
+                    name={item.icon}
+                    className="absolute right-5 top-5 h-8 w-8 opacity-40 transition-transform duration-300 group-hover:scale-110"
+                    strokeWidth={1.2}
+                  />
+                  <p className="text-[11px] font-medium uppercase tracking-[0.16em] opacity-70">
+                    {item.category}
+                  </p>
+                  <p className="font-display text-lg font-semibold leading-tight">
+                    {item.title}
+                  </p>
+                </article>
+              </StaggerItem>
             );
           })}
-        </div>
+        </Stagger>
       </Container>
     </section>
   );

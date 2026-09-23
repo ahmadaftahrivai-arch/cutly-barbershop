@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ServiceCard } from "@/components/ui/ServiceCard";
+import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { services } from "@/data/services";
 
 export function Services() {
@@ -13,11 +14,13 @@ export function Services() {
           description="Transparent pricing, no surprises. Every service includes a consultation so you leave with exactly the cut you asked for."
         />
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Stagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
-            <ServiceCard key={service.id} service={service} />
+            <StaggerItem key={service.id}>
+              <ServiceCard service={service} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
     </section>
   );

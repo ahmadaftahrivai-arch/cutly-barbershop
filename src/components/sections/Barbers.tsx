@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { BarberCard } from "@/components/ui/BarberCard";
+import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { barbers } from "@/data/barbers";
 
 export function Barbers() {
@@ -15,11 +16,13 @@ export function Barbers() {
           className="mx-auto"
         />
 
-        <div className="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
           {barbers.map((barber) => (
-            <BarberCard key={barber.id} barber={barber} />
+            <StaggerItem key={barber.id}>
+              <BarberCard barber={barber} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
     </section>
   );

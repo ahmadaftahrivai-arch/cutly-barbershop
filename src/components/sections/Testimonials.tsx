@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { TestimonialCard } from "@/components/ui/TestimonialCard";
+import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { testimonials } from "@/data/testimonials";
 
 export function Testimonials() {
@@ -14,11 +15,13 @@ export function Testimonials() {
           className="mx-auto"
         />
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+        <Stagger className="mt-14 grid gap-6 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            <StaggerItem key={testimonial.id}>
+              <TestimonialCard testimonial={testimonial} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
     </section>
   );

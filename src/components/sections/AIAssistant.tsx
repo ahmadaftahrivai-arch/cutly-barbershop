@@ -3,13 +3,14 @@ import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ChatBubble } from "@/components/ui/ChatBubble";
+import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { chatTranscript, aiCapabilities } from "@/data/chat";
 
 export function AIAssistant() {
   return (
     <section id="ai-assistant" className="py-24 lg:py-32">
       <Container className="grid items-center gap-16 lg:grid-cols-2 lg:gap-14">
-        <div className="order-2 lg:order-1">
+        <Reveal className="order-2 lg:order-1">
           <Badge>Powered by CUTLY AI</Badge>
 
           <h2 className="mt-4 font-display text-3xl font-semibold leading-[1.1] text-ink sm:text-4xl lg:text-[2.75rem]">
@@ -47,9 +48,9 @@ export function AIAssistant() {
             Can&apos;t help? CUTLY AI hands you straight to a real team
             member — no repeating yourself.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="order-1 lg:order-2">
+        <Reveal className="order-1 lg:order-2" delay={0.15}>
           <div className="mx-auto w-full max-w-md overflow-hidden rounded-[1.75rem] border border-line bg-background shadow-2xl shadow-ink/10">
             <div className="flex items-center gap-3 border-b border-line bg-surface px-5 py-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-ink text-accent-soft">
@@ -64,11 +65,13 @@ export function AIAssistant() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 px-5 py-6">
+            <Stagger className="flex flex-col gap-3 px-5 py-6" step={0.12}>
               {chatTranscript.map((message) => (
-                <ChatBubble key={message.id} message={message} />
+                <StaggerItem key={message.id} y={12}>
+                  <ChatBubble message={message} />
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
 
             <div className="border-t border-line px-5 py-4">
               <div className="mb-3 flex items-center justify-between rounded-xl border border-dashed border-accent/40 bg-accent-soft/60 px-3 py-2.5">
@@ -88,7 +91,7 @@ export function AIAssistant() {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </Container>
     </section>
   );

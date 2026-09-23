@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Icon } from "@/components/ui/Icon";
+import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { valueProps } from "@/data/values";
 
 export function WhyCutly() {
@@ -15,9 +16,9 @@ export function WhyCutly() {
           className="mx-auto [&_h2]:text-background [&_p]:text-background/65 [&_.text-accent-dark]:text-accent"
         />
 
-        <div className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {valueProps.map((value) => (
-            <div key={value.id} className="text-center sm:text-left">
+            <StaggerItem key={value.id} className="text-center sm:text-left">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-background/10 text-accent sm:mx-0">
                 <Icon name={value.icon} className="h-6 w-6" />
               </div>
@@ -27,9 +28,9 @@ export function WhyCutly() {
               <p className="mt-2 text-sm leading-relaxed text-background/65">
                 {value.description}
               </p>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
     </section>
   );

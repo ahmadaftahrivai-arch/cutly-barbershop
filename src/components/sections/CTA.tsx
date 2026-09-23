@@ -1,12 +1,13 @@
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { StripePattern } from "@/components/ui/StripePattern";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function CTA() {
   return (
     <section className="py-24 lg:py-32">
       <Container>
-        <div className="relative overflow-hidden rounded-[2rem] bg-ink px-8 py-16 text-center text-background sm:px-16 sm:py-20">
+        <Reveal className="relative overflow-hidden rounded-[2rem] bg-ink px-8 py-16 text-center text-background sm:px-16 sm:py-20">
           <StripePattern
             id="cta-stripes"
             className="-right-10 -top-10 h-56 w-56 text-accent/20"
@@ -33,7 +34,7 @@ export function CTA() {
               </Button>
             </div>
           </div>
-        </div>
+        </Reveal>
       </Container>
     </section>
   );

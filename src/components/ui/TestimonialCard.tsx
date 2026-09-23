@@ -3,7 +3,7 @@ import { Testimonial } from "@/types";
 
 export function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <figure className="flex h-full flex-col rounded-2xl border border-line bg-background p-7">
+    <figure className="flex h-full flex-col rounded-2xl border border-line bg-background p-7 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-xl hover:shadow-ink/5">
       <div className="flex gap-1 text-accent">
         {Array.from({ length: testimonial.rating }).map((_, i) => (
           <Star key={i} size={15} fill="currentColor" strokeWidth={0} />

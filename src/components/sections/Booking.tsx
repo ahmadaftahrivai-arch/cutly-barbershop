@@ -1,10 +1,12 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { CalendarCheck2, CheckCircle2 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FormField, inputClasses } from "@/components/ui/FormField";
+import { Reveal } from "@/components/ui/Reveal";
 import { services } from "@/data/services";
 import { barbers } from "@/data/barbers";
 import { timeSlots } from "@/data/booking";
@@ -20,7 +22,7 @@ export function Booking() {
   return (
     <section id="booking" className="bg-surface py-24 lg:py-32">
       <Container className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
-        <div>
+        <Reveal>
           <SectionHeading
             eyebrow="Book a Seat"
             title="Reserve your chair in under a minute."
@@ -43,32 +45,51 @@ export function Booking() {
               </div>
             </div>
           </dl>
-        </div>
+        </Reveal>
 
-        <div className="rounded-[1.75rem] border border-line bg-background p-6 shadow-xl shadow-ink/5 sm:p-9">
-          {submitted ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-soft text-accent-dark">
-                <CheckCircle2 size={28} />
-              </div>
-              <h3 className="mt-5 font-display text-xl font-semibold text-ink">
-                Request captured
-              </h3>
-              <p className="mt-2 max-w-sm text-sm leading-relaxed text-ink-muted">
-                This is a frontend preview — no data was sent anywhere yet.
-                Real booking &amp; confirmation will connect once
-                CUTLY&apos;s backend goes live.
-              </p>
-              <button
-                type="button"
-                onClick={() => setSubmitted(false)}
-                className="mt-6 text-sm font-medium text-accent-dark underline underline-offset-4"
+        <Reveal
+          delay={0.15}
+          className="rounded-[1.75rem] border border-line bg-background p-6 shadow-xl shadow-ink/5 sm:p-9"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {submitted ? (
+              <motion.div
+                key="confirmation"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+                className="flex flex-col items-center justify-center py-16 text-center"
               >
-                Fill the form again
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-soft text-accent-dark">
+                  <CheckCircle2 size={28} />
+                </div>
+                <h3 className="mt-5 font-display text-xl font-semibold text-ink">
+                  Request captured
+                </h3>
+                <p className="mt-2 max-w-sm text-sm leading-relaxed text-ink-muted">
+                  This is a frontend preview — no data was sent anywhere yet.
+                  Real booking &amp; confirmation will connect once
+                  CUTLY&apos;s backend goes live.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubmitted(false)}
+                  className="mt-6 text-sm font-medium text-accent-dark underline underline-offset-4"
+                >
+                  Fill the form again
+                </button>
+              </motion.div>
+            ) : (
+              <motion.form
+                key="form"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+                onSubmit={handleSubmit}
+                className="space-y-5"
+                noValidate>
               <div className="grid gap-5 sm:grid-cols-2">
                 <FormField label="Full Name">
                   <input
@@ -171,9 +192,10 @@ export function Booking() {
                 UI preview only — booking isn&apos;t connected to a backend
                 yet.
               </p>
-            </form>
-          )}
-        </div>
+              </motion.form>
+            )}
+          </AnimatePresence>
+        </Reveal>
       </Container>
     </section>
   );
