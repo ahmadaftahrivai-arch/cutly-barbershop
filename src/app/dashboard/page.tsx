@@ -11,6 +11,9 @@ export default async function DashboardPage() {
   if (!session?.user) {
     redirect("/login");
   }
+  if (session.user.role === "ADMIN") {
+    redirect("/admin");
+  }
 
   const bookings = await prisma.booking.findMany({
     where: { userId: session.user.id },
