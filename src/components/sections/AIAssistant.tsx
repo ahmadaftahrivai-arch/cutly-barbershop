@@ -1,10 +1,10 @@
-import { Bot, Headset, Send, ShieldCheck } from "lucide-react";
+import { Headset, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { ChatBubble } from "@/components/ui/ChatBubble";
-import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
-import { chatTranscript, aiCapabilities } from "@/data/chat";
+import { ChatPanel } from "@/components/ui/ChatPanel";
+import { Reveal } from "@/components/ui/Reveal";
+import { aiCapabilities } from "@/data/chat";
 
 export function AIAssistant() {
   return (
@@ -45,52 +45,13 @@ export function AIAssistant() {
 
           <p className="mt-5 flex items-center gap-2 text-xs text-ink-muted">
             <ShieldCheck size={15} className="text-accent-dark" />
-            Can&apos;t help? CUTLY AI hands you straight to a real team
-            member — no repeating yourself.
+            Can&apos;t help? Tap &quot;Talk to Admin&quot; in the chat to
+            reach a real team member.
           </p>
         </Reveal>
 
         <Reveal className="order-1 lg:order-2" delay={0.15}>
-          <div className="mx-auto w-full max-w-md overflow-hidden rounded-[1.75rem] border border-line bg-background shadow-2xl shadow-ink/10">
-            <div className="flex items-center gap-3 border-b border-line bg-surface px-5 py-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-ink text-accent-soft">
-                <Bot size={20} />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-ink">CUTLY AI</p>
-                <p className="flex items-center gap-1.5 text-xs text-ink-muted">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  Online now
-                </p>
-              </div>
-            </div>
-
-            <Stagger className="flex flex-col gap-3 px-5 py-6" step={0.12}>
-              {chatTranscript.map((message) => (
-                <StaggerItem key={message.id} y={12}>
-                  <ChatBubble message={message} />
-                </StaggerItem>
-              ))}
-            </Stagger>
-
-            <div className="border-t border-line px-5 py-4">
-              <div className="mb-3 flex items-center justify-between rounded-xl border border-dashed border-accent/40 bg-accent-soft/60 px-3 py-2.5">
-                <span className="text-xs font-medium text-accent-dark">
-                  Not what you need?
-                </span>
-                <span className="flex items-center gap-1.5 text-xs font-semibold text-ink">
-                  <Headset size={14} />
-                  Talk to Admin
-                </span>
-              </div>
-              <div className="flex items-center gap-2 rounded-full border border-line px-4 py-2.5">
-                <span className="flex-1 text-sm text-ink-muted">
-                  Type your question…
-                </span>
-                <Send size={16} className="text-accent-dark" />
-              </div>
-            </div>
-          </div>
+          <ChatPanel />
         </Reveal>
       </Container>
     </section>
