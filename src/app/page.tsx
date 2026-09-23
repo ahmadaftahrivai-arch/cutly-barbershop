@@ -1,5 +1,7 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { FloatingBookButton } from "@/components/ui/FloatingBookButton";
 import { Hero } from "@/components/sections/Hero";
 import { Services } from "@/components/sections/Services";
 import { Booking } from "@/components/sections/Booking";
@@ -21,6 +23,7 @@ export default async function Home() {
 
   return (
     <>
+      <ScrollProgress />
       <Navbar />
       <main>
         <Hero />
@@ -35,6 +38,7 @@ export default async function Home() {
         <CTA />
       </main>
       <Footer />
+      <FloatingBookButton />
     </>
   );
 }

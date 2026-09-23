@@ -46,15 +46,16 @@ export function Gallery() {
                   />
                   <Icon
                     name={item.icon}
-                    className="absolute right-5 top-5 h-8 w-8 opacity-40 transition-transform duration-300 group-hover:scale-110"
+                    className="absolute right-5 top-5 h-8 w-8 opacity-40 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-125"
                     strokeWidth={1.2}
                   />
                   <p className="text-[11px] font-medium uppercase tracking-[0.16em] opacity-70">
                     {item.category}
                   </p>
-                  <p className="font-display text-lg font-semibold leading-tight">
+                  <p className="font-display text-lg font-semibold leading-tight transition-transform duration-300 group-hover:-translate-y-1">
                     {item.title}
                   </p>
+                  <span className="mt-2 h-[2px] w-0 bg-current opacity-60 transition-all duration-300 group-hover:w-8" />
                 </article>
               </StaggerItem>
             );

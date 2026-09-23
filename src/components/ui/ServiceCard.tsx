@@ -20,7 +20,7 @@ export function ServiceCard({ service }: { service: Service }) {
 
       <div
         className={cn(
-          "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110",
+          "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110",
           service.featured ? "bg-accent/20 text-accent" : "bg-accent-soft text-accent-dark",
         )}
       >

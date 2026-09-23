@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Icon } from "@/components/ui/Icon";
 import { StripePattern } from "@/components/ui/StripePattern";
+import { CountUp } from "@/components/ui/CountUp";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -95,8 +96,10 @@ export function Hero() {
               ))}
             </div>
             <p className="text-sm text-ink-muted">
-              <span className="font-semibold text-ink">4.9 / 5</span> from
-              500+ happy clients
+              <span className="font-semibold text-ink">
+                <CountUp target={4.9} decimals={1} /> / 5
+              </span>{" "}
+              from <CountUp target={500} suffix="+" /> happy clients
             </p>
           </motion.div>
         </motion.div>
@@ -132,7 +135,9 @@ export function Hero() {
             variants={floatBadge}
             className="absolute -top-6 -right-4 rounded-2xl border border-line bg-background px-5 py-4 shadow-xl shadow-ink/5 sm:-right-8"
           >
-            <p className="font-display text-2xl font-semibold text-ink">10+</p>
+            <p className="font-display text-2xl font-semibold text-ink">
+              <CountUp target={10} suffix="+" />
+            </p>
             <p className="text-xs text-ink-muted">Years of craft</p>
           </motion.div>
 
@@ -147,7 +152,9 @@ export function Hero() {
               <Icon name="sparkle" className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-ink">2,400+ cuts</p>
+              <p className="text-sm font-semibold text-ink">
+                <CountUp target={2400} suffix="+" /> cuts
+              </p>
               <p className="text-xs text-ink-muted">delivered this year</p>
             </div>
           </motion.div>
