@@ -12,6 +12,7 @@ model Booking {
   id        String   @id @default(cuid())
   name      String
   phone     String
+  branchId  String
   serviceId String
   barberId  String?
   date      DateTime

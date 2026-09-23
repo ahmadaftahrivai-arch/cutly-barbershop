@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { services } from "@/data/services";
 import { barbers } from "@/data/barbers";
+import { branches } from "@/data/branches";
 import { timeSlots } from "@/data/booking";
 
 interface BookingPayload {
   name?: unknown;
   phone?: unknown;
+  branchId?: unknown;
   serviceId?: unknown;
   barberId?: unknown;
   date?: unknown;
@@ -27,13 +29,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { name, phone, serviceId, barberId, date, time, notes } = payload;
+  const { name, phone, branchId, serviceId, barberId, date, time, notes } = payload;
 
   if (!isNonEmptyString(name)) {
     return NextResponse.json({ error: "Full name is required." }, { status: 400 });
   }
   if (!isNonEmptyString(phone)) {
     return NextResponse.json({ error: "Phone number is required." }, { status: 400 });
+  }
+  if (!isNonEmptyString(branchId) || !branches.some((b) => b.id === branchId)) {
+    return NextResponse.json({ error: "Please choose a valid branch." }, { status: 400 });
   }
   if (!isNonEmptyString(serviceId) || !services.some((s) => s.id === serviceId)) {
     return NextResponse.json({ error: "Please choose a valid service." }, { status: 400 });
@@ -61,6 +66,7 @@ export async function POST(request: Request) {
       data: {
         name: name.trim(),
         phone: phone.trim(),
+        branchId,
         serviceId,
         barberId: isNonEmptyString(barberId) ? barberId : null,
         date: new Date(date),

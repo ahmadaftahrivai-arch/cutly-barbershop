@@ -4,6 +4,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Services } from "@/components/sections/Services";
 import { Booking } from "@/components/sections/Booking";
 import { Barbers } from "@/components/sections/Barbers";
+import { Locations } from "@/components/sections/Locations";
 import { AIAssistant } from "@/components/sections/AIAssistant";
 import { Gallery } from "@/components/sections/Gallery";
 import { WhyCutly } from "@/components/sections/WhyCutly";
@@ -19,6 +20,7 @@ export default function Home() {
         <Services />
         <Booking />
         <Barbers />
+        <Locations />
         <AIAssistant />
         <Gallery />
         <WhyCutly />

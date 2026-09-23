@@ -9,6 +9,7 @@ import { FormField, inputClasses } from "@/components/ui/FormField";
 import { Reveal } from "@/components/ui/Reveal";
 import { services } from "@/data/services";
 import { barbers } from "@/data/barbers";
+import { branches } from "@/data/branches";
 import { timeSlots } from "@/data/booking";
 
 export function Booking() {
@@ -25,6 +26,7 @@ export function Booking() {
     const payload = {
       name: formData.get("name"),
       phone: formData.get("phone"),
+      branchId: formData.get("branch"),
       serviceId: formData.get("service"),
       barberId: formData.get("barber"),
       date: formData.get("date"),
@@ -144,6 +146,24 @@ export function Booking() {
                   />
                 </FormField>
               </div>
+
+              <FormField label="Select Branch">
+                <select
+                  name="branch"
+                  required
+                  defaultValue={branches.find((b) => b.isMain)?.id ?? ""}
+                  className={inputClasses}
+                >
+                  <option value="" disabled>
+                    Choose a branch
+                  </option>
+                  {branches.map((branch) => (
+                    <option key={branch.id} value={branch.id}>
+                      {branch.name}
+                    </option>
+                  ))}
+                </select>
+              </FormField>
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <FormField label="Select Service">

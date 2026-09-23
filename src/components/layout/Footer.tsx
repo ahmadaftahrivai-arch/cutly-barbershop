@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { navLinks, siteConfig } from "@/data/site";
+import { branches } from "@/data/branches";
 
 export function Footer() {
   return (
@@ -55,11 +56,19 @@ export function Footer() {
           <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-ink">
             Visit Us
           </h3>
-          <address className="mt-4 space-y-2.5 text-sm not-italic text-ink-muted">
-            <p>{siteConfig.address}</p>
-            <p>{siteConfig.phone}</p>
-            <p>{siteConfig.email}</p>
-          </address>
+          <ul className="mt-4 space-y-2.5">
+            {branches.map((branch) => (
+              <li key={branch.id}>
+                <Link
+                  href="#location"
+                  className="text-sm text-ink-muted transition-colors hover:text-accent-dark"
+                >
+                  {branch.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm text-ink-muted">{siteConfig.email}</p>
           <ul className="mt-5 flex gap-4">
             {siteConfig.social.map((s) => (
               <li key={s.label}>
