@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { Providers } from "@/components/providers/SessionProvider";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const fraunces = localFont({
   variable: "--font-fraunces",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  style: ["normal", "italic"],
+  src: [
+    { path: "../fonts/fraunces-normal.woff2", weight: "500 700", style: "normal" },
+    { path: "../fonts/fraunces-italic.woff2", weight: "500 700", style: "italic" },
+  ],
+  display: "swap",
 });
 
-const inter = Inter({
+const inter = localFont({
   variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  src: [{ path: "../fonts/inter-normal.woff2", weight: "400 600", style: "normal" }],
+  display: "swap",
 });
 
 const title = "CUTLY Barbershop | Modern Grooming, Premium Cuts";
