@@ -1,5 +1,6 @@
 import { cn } from "@/lib/cn";
 import { Reveal } from "@/components/ui/Reveal";
+import { TextReveal } from "@/components/ui/TextReveal";
 
 interface SectionHeadingProps {
   eyebrow?: string;
@@ -30,7 +31,7 @@ export function SectionHeading({
         </p>
       )}
       <h2 className="mt-3 font-display text-3xl font-semibold leading-[1.1] text-ink sm:text-4xl lg:text-[2.75rem]">
-        {title}
+        <TextReveal text={title} delay={0.1} />
       </h2>
       {description && (
         <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">

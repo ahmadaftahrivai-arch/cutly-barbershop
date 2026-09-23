@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { StripePattern } from "@/components/ui/StripePattern";
 import { Reveal } from "@/components/ui/Reveal";
+import { TextReveal } from "@/components/ui/TextReveal";
 
 export function CTA() {
   return (
@@ -19,7 +20,7 @@ export function CTA() {
 
           <div className="relative mx-auto max-w-2xl">
             <h2 className="font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-              Ready for your next cut?
+              <TextReveal text="Ready for your next cut?" delay={0.1} />
             </h2>
             <p className="mt-5 text-base leading-relaxed text-background/65 sm:text-lg">
               Grab your preferred barber and time slot before it&apos;s gone —

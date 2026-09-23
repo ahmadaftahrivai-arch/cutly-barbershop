@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ChatPanel } from "@/components/ui/ChatPanel";
 import { Reveal } from "@/components/ui/Reveal";
+import { TextReveal } from "@/components/ui/TextReveal";
 import { aiCapabilities } from "@/data/chat";
 
 export function AIAssistant() {
@@ -14,7 +15,7 @@ export function AIAssistant() {
           <Badge>Powered by CUTLY AI</Badge>
 
           <h2 className="mt-4 font-display text-3xl font-semibold leading-[1.1] text-ink sm:text-4xl lg:text-[2.75rem]">
-            Ask anything, get an answer instantly.
+            <TextReveal text="Ask anything, get an answer instantly." delay={0.1} />
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-muted sm:text-lg">
             CUTLY AI is available around the clock to help with the questions
