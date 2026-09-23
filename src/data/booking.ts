@@ -1,3 +1,6 @@
+export const bookingStatuses = ["pending", "confirmed", "cancelled"] as const;
+export type BookingStatus = (typeof bookingStatuses)[number];
+
 export const timeSlots: string[] = [
   "09:00",
   "10:00",

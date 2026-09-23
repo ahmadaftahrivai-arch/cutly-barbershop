@@ -1,19 +1,38 @@
 import { redirect } from "next/navigation";
+import { Prisma } from "@prisma/client";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Container } from "@/components/ui/Container";
 import { SignOutButton } from "@/components/ui/SignOutButton";
+import { AdminFilters } from "@/components/ui/AdminFilters";
+import { BookingStatusSelect } from "@/components/ui/BookingStatusSelect";
 import { getBarberName, getBranchName, getServiceName } from "@/lib/lookups";
 
-export default async function AdminPage() {
+interface AdminPageProps {
+  searchParams: Promise<{ branch?: string; status?: string; date?: string }>;
+}
+
+export default async function AdminPage({ searchParams }: AdminPageProps) {
   const session = await auth();
   if (!session?.user || session.user.role !== "ADMIN") {
     redirect("/login");
   }
 
+  const { branch, status, date } = await searchParams;
+
+  const where: Prisma.BookingWhereInput = {};
+  if (branch) where.branchId = branch;
+  if (status) where.status = status;
+  if (date) {
+    const start = new Date(`${date}T00:00:00`);
+    const end = new Date(`${date}T23:59:59.999`);
+    where.date = { gte: start, lte: end };
+  }
+
   const bookings = await prisma.booking.findMany({
+    where,
     orderBy: { createdAt: "desc" },
-    take: 50,
+    take: 100,
   });
 
   return (
@@ -31,8 +50,12 @@ export default async function AdminPage() {
           <SignOutButton />
         </div>
 
-        <div className="mt-10 overflow-x-auto rounded-2xl border border-line bg-background">
-          <table className="w-full min-w-[720px] text-left text-sm">
+        <div className="mt-8">
+          <AdminFilters branch={branch} status={status} date={date} />
+        </div>
+
+        <div className="mt-6 overflow-x-auto rounded-2xl border border-line bg-background">
+          <table className="w-full min-w-[760px] text-left text-sm">
             <thead>
               <tr className="border-b border-line text-xs font-semibold uppercase tracking-wide text-ink-muted">
                 <th className="px-5 py-4">Customer</th>
@@ -50,7 +73,7 @@ export default async function AdminPage() {
                     colSpan={6}
                     className="px-5 py-10 text-center text-ink-muted"
                   >
-                    No bookings yet.
+                    No bookings match these filters.
                   </td>
                 </tr>
               ) : (
@@ -78,9 +101,10 @@ export default async function AdminPage() {
                       · {booking.time}
                     </td>
                     <td className="px-5 py-4">
-                      <span className="rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent-dark">
-                        {booking.status}
-                      </span>
+                      <BookingStatusSelect
+                        bookingId={booking.id}
+                        status={booking.status}
+                      />
                     </td>
                   </tr>
                 ))
