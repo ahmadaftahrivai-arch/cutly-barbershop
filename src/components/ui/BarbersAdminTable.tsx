@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle, Trash2 } from "lucide-react";
 import { inputClasses } from "@/components/ui/FormField";
+import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { Barber } from "@/types";
 
 interface BarberFields {
@@ -234,11 +235,15 @@ function NewBarberForm({ onCreated }: { onCreated: () => void }) {
 
 export function BarbersAdminTable({ barbers }: { barbers: Barber[] }) {
   return (
-    <div className="space-y-4">
+    <Stagger className="space-y-4">
       {barbers.map((barber) => (
-        <BarberForm key={barber.id} initial={barber} onSaved={() => {}} />
+        <StaggerItem key={barber.id}>
+          <BarberForm initial={barber} onSaved={() => {}} />
+        </StaggerItem>
       ))}
-      <NewBarberForm onCreated={() => {}} />
-    </div>
+      <StaggerItem>
+        <NewBarberForm onCreated={() => {}} />
+      </StaggerItem>
+    </Stagger>
   );
 }

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AlertCircle, Trash2 } from "lucide-react";
 import { inputClasses } from "@/components/ui/FormField";
 import { Icon } from "@/components/ui/Icon";
+import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { Service } from "@/types";
 
 const ICONS = ["scissors", "razor", "comb", "beard", "clipper", "sparkle"] as const;
@@ -310,11 +311,15 @@ function NewServiceForm({ onCreated }: { onCreated: () => void }) {
 
 export function ServicesAdminTable({ services }: { services: Service[] }) {
   return (
-    <div className="space-y-4">
+    <Stagger className="space-y-4">
       {services.map((service) => (
-        <ServiceForm key={service.id} initial={service} onSaved={() => {}} />
+        <StaggerItem key={service.id}>
+          <ServiceForm initial={service} onSaved={() => {}} />
+        </StaggerItem>
       ))}
-      <NewServiceForm onCreated={() => {}} />
-    </div>
+      <StaggerItem>
+        <NewServiceForm onCreated={() => {}} />
+      </StaggerItem>
+    </Stagger>
   );
 }

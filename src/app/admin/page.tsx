@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { AdminFilters } from "@/components/ui/AdminFilters";
 import { BookingStatusSelect } from "@/components/ui/BookingStatusSelect";
 import { StatCard } from "@/components/ui/StatCard";
+import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { buildCatalogLookup } from "@/lib/lookups";
 
 interface AdminPageProps {
@@ -40,26 +41,41 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
   return (
     <div>
-      <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent-dark">
-        Dashboard
-      </p>
-      <h1 className="mt-2 font-display text-3xl font-semibold text-ink">
-        All Bookings
-      </h1>
+      <Reveal>
+        <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent-dark">
+          Dashboard
+        </p>
+        <h1 className="mt-2 font-display text-3xl font-semibold text-ink">
+          All Bookings
+        </h1>
+      </Reveal>
 
-      <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-        <StatCard label="Total" value={total} icon={ListChecks} accent />
-        <StatCard label="Today" value={today} icon={CalendarDays} />
-        <StatCard label="Pending" value={pending} icon={Clock} />
-        <StatCard label="Confirmed" value={confirmed} icon={CheckCircle2} />
-        <StatCard label="Cancelled" value={cancelled} icon={XCircle} />
-      </div>
+      <Stagger className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <StaggerItem>
+          <StatCard label="Total" value={total} icon={ListChecks} accent />
+        </StaggerItem>
+        <StaggerItem>
+          <StatCard label="Today" value={today} icon={CalendarDays} />
+        </StaggerItem>
+        <StaggerItem>
+          <StatCard label="Pending" value={pending} icon={Clock} />
+        </StaggerItem>
+        <StaggerItem>
+          <StatCard label="Confirmed" value={confirmed} icon={CheckCircle2} />
+        </StaggerItem>
+        <StaggerItem>
+          <StatCard label="Cancelled" value={cancelled} icon={XCircle} />
+        </StaggerItem>
+      </Stagger>
 
-      <div className="mt-10">
+      <Reveal delay={0.1} className="mt-10">
         <AdminFilters branch={branch} status={status} date={date} />
-      </div>
+      </Reveal>
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-line bg-background">
+      <Reveal
+        delay={0.15}
+        className="mt-6 overflow-x-auto rounded-2xl border border-line bg-background"
+      >
         <table className="w-full min-w-[760px] text-left text-sm">
           <thead>
             <tr className="border-b border-line text-xs font-semibold uppercase tracking-wide text-ink-muted">
@@ -113,7 +129,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             )}
           </tbody>
         </table>
-      </div>
+      </Reveal>
     </div>
   );
 }
