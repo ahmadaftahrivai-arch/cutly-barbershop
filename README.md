@@ -6,9 +6,10 @@ A modern, premium barbershop landing page — built as a portfolio project.
 
 ## Status
 
-This is stage one: a polished, production-quality **frontend landing page**
-only. There is intentionally no backend, database, authentication, or
-AI/API integration yet — all content is static and lives in `src/data`.
+Stage one shipped: a polished, production-quality frontend landing page,
+with static content in `src/data`. Stage two is starting: the booking form
+now saves real submissions to Postgres via Prisma. Auth, customer/admin
+dashboards, and real AI integration are still ahead.
 
 ## Getting Started
 
@@ -18,6 +19,20 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view it.
+
+### Database (booking form)
+
+The booking form posts to `/api/bookings`, which writes to Postgres via
+Prisma. To run it locally:
+
+1. Copy `.env.example` to `.env` and fill in the connection strings from
+   your Vercel Postgres database (Vercel dashboard → project → Storage →
+   your database → `.env.local` tab).
+2. Create the `Booking` table: `npx prisma db push`.
+
+In production on Vercel, once the Postgres database is created and linked
+to the project, the same env vars are injected automatically — no extra
+setup needed there.
 
 ## Project Structure
 

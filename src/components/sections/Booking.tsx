@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { CalendarCheck2, CheckCircle2 } from "lucide-react";
+import { AlertCircle, CalendarCheck2, CheckCircle2 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FormField, inputClasses } from "@/components/ui/FormField";
@@ -13,10 +13,45 @@ import { timeSlots } from "@/data/booking";
 
 export function Booking() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    setSubmitting(true);
+
+    const formData = new FormData(event.currentTarget);
+    const payload = {
+      name: formData.get("name"),
+      phone: formData.get("phone"),
+      serviceId: formData.get("service"),
+      barberId: formData.get("barber"),
+      date: formData.get("date"),
+      time: formData.get("time"),
+      notes: formData.get("notes"),
+    };
+
+    try {
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        throw new Error(body?.error ?? "Something went wrong. Please try again.");
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -65,12 +100,11 @@ export function Booking() {
                   <CheckCircle2 size={28} />
                 </div>
                 <h3 className="mt-5 font-display text-xl font-semibold text-ink">
-                  Request captured
+                  Booking request received
                 </h3>
                 <p className="mt-2 max-w-sm text-sm leading-relaxed text-ink-muted">
-                  This is a frontend preview — no data was sent anywhere yet.
-                  Real booking &amp; confirmation will connect once
-                  CUTLY&apos;s backend goes live.
+                  We&apos;ve saved your request — our team will reach out via
+                  WhatsApp or phone shortly to confirm your slot.
                 </p>
                 <button
                   type="button"
@@ -182,16 +216,20 @@ export function Booking() {
                 />
               </FormField>
 
+              {error && (
+                <p className="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  <AlertCircle size={16} className="shrink-0" />
+                  {error}
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="w-full rounded-full bg-ink px-7 py-3.5 text-sm font-medium tracking-wide text-background transition-colors duration-200 hover:bg-accent-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                disabled={submitting}
+                className="w-full rounded-full bg-ink px-7 py-3.5 text-sm font-medium tracking-wide text-background transition-colors duration-200 hover:bg-accent-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Request Booking
+                {submitting ? "Sending…" : "Request Booking"}
               </button>
-              <p className="text-center text-xs text-ink-muted">
-                UI preview only — booking isn&apos;t connected to a backend
-                yet.
-              </p>
               </motion.form>
             )}
           </AnimatePresence>
