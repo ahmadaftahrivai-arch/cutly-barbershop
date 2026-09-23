@@ -25,14 +25,14 @@ Open [http://localhost:3000](http://localhost:3000) to view it.
 The booking form posts to `/api/bookings`, which writes to Postgres via
 Prisma. To run it locally:
 
-1. Copy `.env.example` to `.env` and fill in the connection strings from
-   your Vercel Postgres database (Vercel dashboard → project → Storage →
-   your database → `.env.local` tab).
+1. Copy `.env.example` to `.env` and fill in `DATABASE_URL` /
+   `DATABASE_URL_UNPOOLED` from your Neon database (Vercel dashboard →
+   project → Settings → Environment Variables).
 2. Create the `Booking` table: `npx prisma db push`.
 
-In production on Vercel, once the Postgres database is created and linked
-to the project, the same env vars are injected automatically — no extra
-setup needed there.
+In production on Vercel, once the Neon database is connected to the
+project (Storage → Marketplace Database Providers → Neon), the same env
+vars are injected automatically — no extra setup needed there.
 
 ## Project Structure
 
