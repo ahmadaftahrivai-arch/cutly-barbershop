@@ -4,7 +4,7 @@ import { StripePattern } from "@/components/ui/StripePattern";
 
 export function CTA() {
   return (
-    <section id="booking" className="py-24 lg:py-32">
+    <section className="py-24 lg:py-32">
       <Container>
         <div className="relative overflow-hidden rounded-[2rem] bg-ink px-8 py-16 text-center text-background sm:px-16 sm:py-20">
           <StripePattern

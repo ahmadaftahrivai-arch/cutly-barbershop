@@ -5,7 +5,7 @@ import { barbers } from "@/data/barbers";
 
 export function Barbers() {
   return (
-    <section id="barbers" className="bg-surface py-24 lg:py-32">
+    <section id="barbers" className="py-24 lg:py-32">
       <Container>
         <SectionHeading
           eyebrow="Meet The Team"
